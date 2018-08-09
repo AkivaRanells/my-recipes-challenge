@@ -35,14 +35,23 @@ var RecipeApp = function () {
         recipes.push(recipe);
     };
 
-    var createIngredients = function(){
+    var createIngredients = function(ingredientText, recipeId){
         //add code
+        ingId ++;
+        let ingredient = {
+            name: ingredientText,
+            id: ingId
+        }
+        recipes[recipeId].ingredients.push();
     };
 
     var _getIngredientsHTML = function(recipe){
         var recipesHTML = "";
 
         //add code
+        for(let i = 0 ; i < recipe.ingredients.length ; i ++){
+            recipesHTML+='<li>'+recipe.ingredient[i]+'</li>';
+        }
         return recipesHTML;
     };
 
@@ -55,7 +64,7 @@ var RecipeApp = function () {
             var recipe = recipes[i];
 
             //return HTML for all ingredients
-            var ingredients = _getIngredientsHTML(); //add code
+            var ingredients = _getIngredientsHTML(recipe); //add code
 
             $recipes.append(
                 '<div class="recipe col-md-6  offset-md-3 img-fluid shadow" data-id="' + recipe.id + '">' + 
@@ -79,7 +88,7 @@ var RecipeApp = function () {
     return {
         createRecipe: createRecipe,
         renderRecipes: renderRecipes,
-        // createIngredients: createIngredients,
+        createIngredients: createIngredients,
     }
 };
 
@@ -97,5 +106,10 @@ $('.add-recipe').on('click', function(){
     //add recipe to array and render
     app.createRecipe(name, image);
     app.renderRecipes();
+});
+$('.recipes').on('click', 'span.add-ingredients', function(){
+    let ingredientText = $(this).closest('.input-group-prepend').next('#basic-url').val();
+    let recipeId = $(this).closest('.recipe').data().id;
+    app.createIngredients(ingredientText, recipeId);
 });
 
